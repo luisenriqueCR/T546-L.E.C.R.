@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacciTrack - Monitoreo IoT para Transporte de Vacunas</title>
+    <style>
+        /* Reset y variables */
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #1f9900;
+            --secondary: #222222;
+            --text: #6f6c6c;
+            --white: #89898910;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Estilos generales */
+        body {
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('/api/placeholder/1920/1080') center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            margin-top: -80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+       .hero {
+                background-image: url('Imagen2.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                padding: 100px 20px;
+        }
+
+        .hero h1 {
+            color: #ffffff; /* Texto blanco */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), /* Sombra principal */
+                        0 0 20px rgba(0, 102, 255, 0.5); /* Resplandor azul suave */
+            font-weight: bold;
+            letter-spacing: 1px; /* Mejora la legibilidad */
+        }
+
+        .hero p {
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Sombra más sutil para el texto secundario */
+            font-weight: 500;
+        }
+
+
+
+
+
+
+
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 25px;
+            background: linear-gradient(45deg, #0066cc, #0099ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-button .arrow {
+            display: inline-block;
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+            background: linear-gradient(45deg, #0052a3, #0088ff);
+        }
+
+        .cta-button:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 102, 255, 0.3);
+        }
+
+
+        /* Sección de solución */
+        .solution {
+            padding: 5rem 0;
+            background: var(--secondary);
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .solution-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Ventajas */
+        .benefits {
+            padding: 5rem 0;
+        }
+
+        .benefits h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            nav a {
+                margin: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .solution-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">VacciTrack</a>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#soluciones">Soluciones</a>
+                <a href="#ventajas">Ventajas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Transporte Seguro de Vacunas</h1>
+            <p>Monitoreo IoT de última generación para garantizar la integridad de cada dosis</p>
+            <a href="dashboard.php" class="cta-button">
+                Ingresa
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="solution" id="soluciones">
+        <div class="container solution-content">
+            <div class="solution-text">
+                <h2>Tecnología IoT Avanzada</h2>
+                <p>Nuestro sistema integral de monitoreo utiliza sensores de última generación para garantizar:</p>
+                <ul>
+                    <li>Control preciso de temperatura en tiempo real</li>
+                    <li>Monitoreo de presión Barométrica</li>
+                    <li>Detección de movimientos bruscos mediante giroscopio</li>
+                    <li>Alertas instantáneas ante cualquier anomalía</li>
+                </ul>
+            </div>
+            <div class="solution-image">
+                <img src="1I.jpg" alt="Sistema IoT para transporte seguro de vacunas" style="width: 100%; border-radius: 10px;">
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits" id="ventajas">
+        <div class="container">
+            <h2>Nuestras Ventajas</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Monitoreo en Tiempo Real</h3>
+                    <p>Seguimiento continuo 24/7 de todas las variables críticas durante el transporte.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Alta Precisión</h3>
+                    <p>Sensores de grado médico con margen de error mínimo para garantizar la integridad.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Confiabilidad Total</h3>
+                    <p>Sistema redundante con respaldo en la nube y funcionamiento offline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animación de elementos al hacer scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = "all 0.6s ease";
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
